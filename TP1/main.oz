@@ -1,3 +1,6 @@
+% Séance 1
+% -------
+
 % Exercice 1
 % ----------
 {Browse 1} % 1
@@ -26,8 +29,8 @@
 declare % declare permet de créer une variable et de lui assigner une valeur
 X = (6+5)*(9-7) % X est l'identificateur de la variable
 
-{Browse X}
-{Browse X+5}
+{Browse X} % 22
+{Browse X+5} % 27
 
 local
     X
@@ -52,8 +55,9 @@ Y=X+5
 
 declare
 X=1234567890
-{Browse X} % (3) % le X reste en mémoire donc si on run (1) 
-                 % même apres le dernier paragraphe on obtient X=1234567890
+{Browse X} % (3) 
+% le X reste en mémoire donc si on run (1) 
+% même apres le dernier paragraphe on obtient X=1234567890
 % cependant lorsqu'on run (2) on obtient Y=47 car malgré que X soit réassigné 
 % à 1234567890, Y est déjà déclaré et assigné à X+5 donc il ne change pas
 
@@ -73,7 +77,23 @@ X=1234567890
 
 {Browse {Max 3 7}} % 7
 {Browse {Not 3==7}} % true
-{Browse {Max {Max 7 5} 6}} 
+
+% Max de trois nombres
+{Browse {Max {Max 7 5} 6}} % 7
+
+% Fonction qui renvoie le signe d'un nombre
+declare
+fun {Sign N}
+    if N>0 then 1
+    else if N<0 then ~1
+    else 0
+    end end
+end
+
+{Browse {Sign 3}} % 1
+{Browse {Sign ~3}} % -1
+{Browse {Sign 0}} % 0
+
 
 % Exercice 8
 % ----------
@@ -90,9 +110,9 @@ local P Q X Y Z in % (1)
     X=1
     Y=2
     Z=3
-    {Browse {P 4}}
-    {Browse {Q 4}}
-    {Browse {Q {P 4}}} % (4)
+    {Browse {P 4}} % 11
+    {Browse {Q 4}} % 7
+    {Browse {Q {P 4}}} % 14 (4)
 end
 
 local P Q X Y Z in % (1)
@@ -115,10 +135,10 @@ end
 
 declare
 X=3
-fun {Add2}
+fun {Add2} % Environnement de Add2 : E = {X=x} -> mémoire = {x=3} X est une variable libre
     X + 2
 end
-fun {Mul2 X}
+fun {Mul2 X} % Environnement de Mul2 : E = {X=x} -> mémoire = {x=3} X est une variable liée
     X * 2
 end
 {Browse {Add2}} % 5
@@ -126,13 +146,35 @@ end
 {Browse X+2} % (1)
 {Browse X*2} % (2)
 
+declare 
+X = 4
+
+{Browse {Add2}} % 5 car dans son environnement X=x donc X=3 malgré la réassignation
+{Browse {Mul2 X}} % 8
+
 % Exercice 10
 % ----------
 
 % 1. Somme de carrés
+
+% Math : Σ(n=0 -> N) n²
+% 0² + 1² + 2² + 3² + ... + N²
+
+%sans accumulateur
+declare
+fun{Sum N}
+    if N == 0 then 0 
+    else N*N+{Sum N-1} 
+    end
+end
+{Browse {Sum 6}} % 91 
+
+% avec accumulateur
 declare
 fun{SumAux N Acc}
-    if N == 0 then Acc else {SumAux N-1 Acc+N*N} end 
+    if N == 0 then Acc 
+    else {SumAux N-1 Acc+N*N} 
+    end 
 end
 fun{Sum N}
     {SumAux N 0}
@@ -142,7 +184,9 @@ end
 % 2. Miroir, mon beau miroir...
 declare
 fun{MirrorAux N Acc}
-    if N == 0 then Acc else {MirrorAux N div 10 Acc*10+N mod 10} end % 
+    if N == 0 then Acc 
+    else {MirrorAux N div 10 Acc*10+N mod 10} % on divise N par 10 pour obtenir le chiffre des unités et on multiplie Acc par 10 pour décaler les chiffres et on ajoute le chiffre des unités
+    end 
 end
 fun{Mirror N}
     {MirrorAux N 0}
@@ -157,6 +201,7 @@ fun {Foo N}
     end
 end % renvoie le nombre de chiffres de N
 {Browse {Foo 1234567890}} % 10
+
 
 % 4. Univers parallèle (part. 2)
 declare
@@ -189,3 +234,24 @@ proc {CountDown N}
     end
 end
 {CountDown 3}
+
+% Séance 1 - Extra
+
+% 1 : test de primalité
+
+declare
+fun {IsPrimeAux N D}
+    if N mod D == 0 then false 
+    else if D > N then true
+    else {IsPrimeAux N D+1}
+    end end
+end
+fun {Prime N}
+    {IsPrimeAux N 2}
+end
+{Browse {Prime 7}} % true
+{Browse {Prime 8}} % false
+{Browse {Prime 91}} % false
+{Browse {Prime 97}} % true
+
+    

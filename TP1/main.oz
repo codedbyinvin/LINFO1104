@@ -242,7 +242,7 @@ end
 declare
 fun {IsPrimeAux N D}
     if N mod D == 0 then false 
-    else if D > N then true
+    else if D*D > N then true
     else {IsPrimeAux N D+1}
     end end
 end
@@ -254,4 +254,55 @@ end
 {Browse {Prime 91}} % false
 {Browse {Prime 97}} % true
 
+% 2 : Fibonacci (part. 1)
+
+declare 
+fun {Fib N}
+    if N == 0 then 0
+    else if N == 1 then 1
+    else {Fib N-1}+{Fib N-2}
+    end end
+end
+/*
+ Combien d’appels récursifs sont effectués si n = 1 ? 0
+• Combien d’appels récursifs sont effectués si n = 4 ? Fib(4) = Fib(3) + Fib(2) = (Fib(2) + Fib(1)) + (Fib(0) + Fib(1)) = (Fib(1) + Fib(0) + Fib(1)) + (Fib(0) + Fib(1)) = 3 + 2 = 5
+• Combien d’appels récursifs sont effectués si n = 5 ? Fib(5) = Fib(4) + Fib(3) = (Fib(3) + Fib(2)) + (Fib(2) + Fib(1)) = ((Fib(2) + Fib(1)) + (Fib(1) + Fib(0)) + (Fib(1) + Fib(0)) + Fib(1)) = (Fib(1) + Fib(0) + Fib(1) + Fib(1) + Fib(0) + Fib(1) + Fib(0) + Fib(1)) = 5 + 3 = 8
+• Combien d’appels récursifs sont effectués si n = 8 ? 
+• Combien d’appels récursifs sont effectués avec n ? 
+*/
     
+{Browse {Fib 8}} % 21
+
+% 3 : Fibonacci (part. 2)
+
+declare
+fun {FibAux N Acc1 Acc2}
+    if N == 0 then Acc1
+    else {FibAux N-1 Acc2 Acc1+Acc2}
+    end
+end
+fun {Fib N}
+    {FibAux N 0 1}
+end
+{Browse {Fib 8}} % 21
+
+% 4 : Diviseurs et multiples
+
+declare
+fun {PGCD M N}
+    if M == N then M
+    else if M < N then {PGCD M N-M}
+    else {PGCD N M}
+    end end
+end
+{Browse {PGCD 42 56}} % 14
+
+declare
+fun {PPCM M N}
+    M*N div {PGCD M N}
+end
+{Browse {PPCM 42 56}} % 168
+
+% 5 : Numérotation des points du plan
+
+% 6 : Sous les pavés...

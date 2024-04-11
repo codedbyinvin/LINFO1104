@@ -306,3 +306,38 @@ end
 % 5 : Numérotation des points du plan
 
 % 6 : Sous les pavés...
+%(a) Nombre de pavages (Ce sont les diviseurs de N)
+declare
+fun {NombrePavagesDiv N Div}
+    if Div == 1 then 1
+    else if N mod Div == 0 then 1+{NombrePavagesDiv N Div-1}
+    else {NombrePavagesDiv N Div-1}
+    end end
+end
+fun {NombrePavages N}
+    1 + {NombrePavagesDiv N N div 2}
+end
+{Browse {NombrePavages 5}} 
+
+%(b) Nombre de pavés (somme des Div^2 de N)
+declare
+fun {NombrePave N}
+    local 
+        fun {NombrePaveAux N Div}
+            if Div == 1 then 1
+            else if N mod Div == 0 then (Div*Div) + {NombrePaveAux N Div-1}
+                else {NombrePaveAux N Div-1}
+                end
+            end
+        end
+    in
+        N*N + {NombrePaveAux N N div 2}
+    end
+end
+{Browse {NombrePave 6}} % 50
+
+
+
+
+
+

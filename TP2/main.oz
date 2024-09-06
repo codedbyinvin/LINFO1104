@@ -352,9 +352,9 @@ end
 % Exercice 14
 % -----------
 
-{Browse {Label a#b#c}}
-{Browse {Width un#tres#long#tuple#tres#tres#long}}
-{Browse {Arity 1#4#16}}
+{Browse {Label a#b#c}} % affiche '#'
+{Browse {Width un#tres#long#tuple#tres#tres#long}} % affiche 7
+{Browse {Arity 1#4#16}} % affiche [1 2 3]
 
 fun {SameLength Xs Ys} 
     case Xs#Ys              % on prend un tuple de 2 listes
@@ -491,7 +491,21 @@ in
     end
 end
 
+declare
+fun {Fact N}
+    fun {FactAcc N Acc}
+        if N == 1 then Acc
+        else {FactAcc N-1 N*Acc}
+        end
+    end
+in  
+    if N == 1 then 1|nil
+    else {FactAcc N 1}|{Fact N-1}
+    end
+end
+
 {Browse {Fact 4}} % en ordre décroissant [24 6 2 1]
+{Browse {Reverse {Fact 4}}} % en ordre croissant [1 2 6 24]
 
 % Programmation sur les records
 % -----------------------------
@@ -610,5 +624,5 @@ fun {InsertElements L T}
 in
     {FoldL L fun {$ X T} {Insert X T} end T}
 end
-{Browse {InsertElements [0] tree(key:31 value:31 leaf leaf)}}
-
+{Browse {InsertElements [42 17 23] tree(key:31 value:31 leaf leaf)}}
+% ://

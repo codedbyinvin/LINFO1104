@@ -28,9 +28,10 @@ proc {Map F L R} % F est une fonction, L est une liste, R est le résultat
             R = R1|R2
             {F H R1}
             {Map F T R2}
+        end
     end
 end
-
+{Browse {Map fun {$ X} X*X end [7 8 9]}} 
 % Instatiation
 
 declare

@@ -131,18 +131,18 @@ L4 = state(1:4 2:f 3:3)
 %-----------
 
 proc {Q A} 
-    {P A+1} end % E = {P -> p}  la proc Q doit avoir une fonction qui lie P à la mémoire car P n'est pas dans les arguments de la Q
-
-proc {P} {Browse A} end % E = {A -> a}
-
+    {P A+1} end % Ec = {P -> p}  la proc Q doit avoir une fonction qui lie P à la mémoire car P n'est pas dans les arguments de la Q
+%-----------
+proc {P} {Browse A} end % Ec = {A -> a}
+%-----------
 local P Q in
-    proc {P A R} R=A+2 end % E = {}
+    proc {P A R} R=A+2 end % Ec = {}
     local P R in
-        fun {Q A}          % E = {P -> p}
+        fun {Q A}          % Ec = {P -> p}
             {P A R}
             R
         end
-        proc {P A R} R=A-2 end
+        proc {P A R} R=A-2 end % Ec = {}
     end
 {Browse {Q 4}} % affiche 2 car le P dans le scope de Q est A-2
 end
